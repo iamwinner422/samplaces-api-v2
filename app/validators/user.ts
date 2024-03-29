@@ -1,5 +1,11 @@
 import vine from '@vinejs/vine'
-import hasType from '#helpers/hastype'
+
+
+
+
+function hasType(value: unknown, type: string) {
+  return vine.helpers.isObject(value) && value.type === type
+}
 
 const emailIdentifier = vine.object({
   type: vine.literal('email'),
