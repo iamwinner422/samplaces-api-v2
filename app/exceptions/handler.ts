@@ -1,5 +1,8 @@
 import app from '@adonisjs/core/services/app'
 import { HttpContext, ExceptionHandler } from '@adonisjs/core/http'
+import { errors } from '@adonisjs/core'
+import { errors as AuthErrors } from '@adonisjs/auth'
+import { errors as VineErrors } from '@vinejs/vine'
 
 export default class HttpExceptionHandler extends ExceptionHandler {
   /**
@@ -13,7 +16,56 @@ export default class HttpExceptionHandler extends ExceptionHandler {
    * response to the client
    */
   async handle(error: unknown, ctx: HttpContext) {
-    return super.handle(error, ctx)
+    console.log('Error', error)
+    if (error instanceof errors.E_ROUTE_NOT_FOUND) {
+      return ctx.response.status(error.status).send({
+        success: false,
+        message: 'Route not found',
+      })
+    }
+
+    if (error instanceof AuthErrors.E_UNAUTHORIZED_ACCESS) {
+      return ctx.response.status(error.status).send({
+        success: false,
+        message: 'Unauthorized!',
+      })
+    }
+
+    if (error instanceof VineErrors.E_VALIDATION_ERROR) {
+      return ctx.response.status(error.status).send({
+        success: false,
+        message: error.messages,
+      })
+    }
+
+    // custom error
+    const customError = error as any
+
+    switch (customError.code) {
+      case 'E_MISSING_MODEL_ATTRIBUTE':
+        return ctx.response.status(customError.status).send({
+          success: false,
+          message: customError.message,
+        })
+
+      case 'E_ROW_NOT_FOUND':
+        return ctx.response.status(customError.status).send({
+          success: false,
+          message: 'Not Found!',
+        })
+      case 'ER_ROW_IS_REFERENCED_2':
+        return ctx.response.status(customError.status).send({
+          success: false,
+          message: 'Data that has been used cannot be deleted!',
+        })
+      default:
+        return ctx.response.status(customError.status).send({
+          success: false,
+          message: customError.message,
+        })
+    }
+
+    //return super.handle(error, ctx)
   }
 
   /**
