@@ -11,23 +11,29 @@ export default class InstrumentsController {
 
 	async store({request, response, bouncer}: HttpContext){
 		if (await bouncer.denies(manageInstruments)){
-			return response.status(403).send({success: false, message: 'Permission denied'})
+			return response.status(403).send({success: false, message: 'Unauthorized!'})
 		}
 		const { name } = await request.validateUsing(AddValidator)
 		const instrument = await Instrument.create({ name })
 		return response.status(201).send({success: true, data: instrument})
 	}
 
-	async update({request, response, params}: HttpContext){
+	async update({request, response, params, bouncer}: HttpContext){
+		if (await bouncer.denies(manageInstruments)){
+			return response.status(403).send({success: false, message: 'Unauthorized!'})
+		}
 		const { name } = await request.validateUsing(UpdateValidator)
 		const id: Number = Number(params.id)
 		const instrument: Instrument = await Instrument.findOrFail(id)
-		instrument.name = name
+		instrument.name = name;
 		await instrument.save()
 		return response.status(200).send({success: true, data: instrument})
 	}
 
-	async destroy({response, params}: HttpContext){
+	async destroy({response, params, bouncer}: HttpContext){
+		if (await bouncer.denies(manageInstruments)){
+			return response.status(403).send({success: false, message: 'Unauthorized!'})
+		}
 		const id: Number = Number(params.id)
 		const instrument: Instrument = await Instrument.findOrFail(id)
 		await instrument.delete()
