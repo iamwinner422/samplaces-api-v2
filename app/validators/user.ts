@@ -3,6 +3,7 @@ import vine from '@vinejs/vine'
 
 
 
+/*
 function hasType(value: unknown, type: string) {
   return vine.helpers.isObject(value) && value.type === type
 }
@@ -19,10 +20,11 @@ const identifier = vine.union([
   vine.union.if((value) => hasType(value, 'email'), emailIdentifier),
   vine.union.if((value) => hasType(value, 'username'), usernameIdentifier)
 ])
+*/
 
 export const LoginValidator = vine.compile(
   vine.object({
-    identifier: vine.array(identifier),
+    username: vine.string().trim(),
     password: vine.string().trim()
   })
 )
