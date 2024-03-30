@@ -47,7 +47,11 @@ export default class HttpExceptionHandler extends ExceptionHandler {
           success: false,
           message: customError.message,
         })
-
+      case 'E_INVALID_CREDENTIALS':
+        return ctx.response.status(401).send({
+          success: false,
+          message: customError.message,
+        })
       case 'E_ROW_NOT_FOUND':
         return ctx.response.status(customError.status).send({
           success: false,
