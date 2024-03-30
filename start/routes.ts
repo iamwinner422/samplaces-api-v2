@@ -25,7 +25,12 @@ router.group(() => {
 	router.group(() => {
 		router.get('/', [InstrumentsController, 'all'])
 		router.post('/', [InstrumentsController, 'add'])
-		router.put('/:id', [InstrumentsController, 'update']).where('id', {match: /^[0-9]+$/})
+		router.group(() => {
+			router.put('/:id', [InstrumentsController, 'update'])
+			router.delete('/:id', [InstrumentsController, 'delete'])
+		}).where('id', {match: /^[0-9]+$/})
+
+
 	}).prefix('instruments').use(middleware.auth())
 
 

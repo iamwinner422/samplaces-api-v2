@@ -16,10 +16,17 @@ export default class InstrumentsController {
 
 	async update({request, response, params}: HttpContext){
 		const { name } = await request.validateUsing(UpdateValidator)
-		const id = Number(params.id)
+		const id: Number = Number(params.id)
 		const instrument: Instrument = await Instrument.findOrFail(id)
 		instrument.name = name
 		await instrument.save()
+		return response.status(200).send({success: true, data: instrument})
+	}
+
+	async delete({response, params}: HttpContext){
+		const id: Number = Number(params.id)
+		const instrument: Instrument = await Instrument.findOrFail(id)
+		await instrument.delete()
 		return response.status(200).send({success: true, data: instrument})
 	}
 
