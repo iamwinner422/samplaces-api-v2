@@ -51,14 +51,25 @@ export default class SongsController {
 		return response.status(200).send({success: true, data: song})
 	}
 
-	async trash({response, params, bouncer}: HttpContext){
+	async trashRestore({response, params, bouncer}: HttpContext){
 		const id: number = Number(params.id)
+		const action: string = params.action
 		const song:Song = await Song.findOrFail(id)
 		if (await bouncer.with(SongPolicy).denies('edit', song)){
 			return response.status(403).send({success: false, message: 'Forbidden!'})
 		}
-		song.isDeleted = true
-		await song.save()
+		switch(action){
+			case 'trash':
+				song.isDeleted = true
+				await song.save()
+				break
+			case 'restore':
+				song.isDeleted = false
+				await song.save()
+				break
+			default:
+				return response.status(400).send({success: false, message: 'Invalid action'})
+		}
 		return response.status(200).send({success: true, data: song})
 	}
 
