@@ -23,8 +23,8 @@ router.group(() => {
 	}).prefix('auth')
 
 	router.group(() => {
-		router.get('/', [InstrumentsController, 'all'])
-		router.post('/', [InstrumentsController, 'add'])
+		router.get('/', [InstrumentsController, 'index'])
+		router.post('/', [InstrumentsController, 'store'])
 		router.group(() => {
 			router.put('/:id', [InstrumentsController, 'update'])
 			router.delete('/:id', [InstrumentsController, 'delete'])
