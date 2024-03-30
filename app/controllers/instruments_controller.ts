@@ -9,7 +9,7 @@ export default class InstrumentsController {
 	}
 	async add ({request, response}: HttpContext){
 		const { name } = await request.validateUsing(AddValidator)
-		const instrument: Instrument = await Instrument.create({name: name})
+		const instrument = await Instrument.create({ name })
 		return response.status(201).send({success: true, data: instrument})
 	}
 }
