@@ -23,7 +23,7 @@ export default class InstrumentsController {
 		return response.status(200).send({success: true, data: instrument})
 	}
 
-	async delete({response, params}: HttpContext){
+	async destroy({response, params}: HttpContext){
 		const id: Number = Number(params.id)
 		const instrument: Instrument = await Instrument.findOrFail(id)
 		await instrument.delete()

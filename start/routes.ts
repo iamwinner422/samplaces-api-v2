@@ -27,7 +27,7 @@ router.group(() => {
 		router.post('/', [InstrumentsController, 'store'])
 		router.group(() => {
 			router.put('/:id', [InstrumentsController, 'update'])
-			router.delete('/:id', [InstrumentsController, 'delete'])
+			router.delete('/:id', [InstrumentsController, 'destroy'])
 		}).where('id', {match: /^[0-9]+$/})
 
 
