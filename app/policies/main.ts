@@ -12,4 +12,6 @@
 |
 */
 
-export const policies = {}
+export const policies = {
+  SongPolicy: () => import('#policies/song_policy')
+}
