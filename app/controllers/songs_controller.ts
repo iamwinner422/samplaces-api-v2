@@ -1,8 +1,8 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import Song from "#models/song";
 import SongPolicy from "#policies/song_policy";
-
-import {AddValidator} from "#validators/song";
+import {AddValidator, UpdateValidator} from "#validators/song";
+import Track from "#models/track";
 
 export default class SongsController {
 	async index({response, auth}: HttpContext){
@@ -14,7 +14,7 @@ export default class SongsController {
 	}
 
 	async store({request, response, auth, bouncer}: HttpContext){
-		if(await bouncer.with(SongPolicy).denies('create')){
+		if (await bouncer.with(SongPolicy).denies('create')){
 			return response.status(403).send({success: false, message: 'Forbidden!'})
 		}
 		const user = await auth.authenticate()
@@ -23,4 +23,32 @@ export default class SongsController {
 		await song.related('user').associate(user)
 		return response.status(201).send({success: true, data: song})
 	}
+
+	async show({response, params, bouncer}: HttpContext){
+		const id: number = Number(params.id)
+		const rawSong:Song = await Song.findOrFail(id)
+		if (await bouncer.with(SongPolicy).denies('readOne', rawSong)){
+			return response.status(403).send({success: false, message: 'Forbidden!'})
+		}
+		const tracks: Track[] = await rawSong.related('tracks').query().select('*')
+		const song = rawSong.serialize()
+		song.tracks = tracks
+		return response.status(200).send({success: true, data: song})
+	}
+
+	async update({request, response, params, bouncer}: HttpContext){
+		const id: number = Number(params.id)
+		const song:Song = await Song.findOrFail(id)
+		if (await bouncer.with(SongPolicy).denies('edit', song)){
+			return response.status(403).send({success: false, message: 'Forbidden!'})
+		}
+		const { title, about, key, bpm } = await request.validateUsing(UpdateValidator)
+		song.title = title
+		song.about = about
+		song.key = key
+		song.bpm = bpm
+		await song.save()
+		return response.status(200).send({success: true, data: song})
+	}
+
 }

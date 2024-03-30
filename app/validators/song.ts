@@ -10,6 +10,6 @@ export const UpdateValidator = vine.compile(
 		title: vine.string().trim().minLength(2).maxLength(254),
 		about: vine.string().trim().nullable(),
 		key: vine.string().trim().nullable(),
-		bpm: vine.number().nullable()
+		bpm: vine.string().trim().nullable()
 	})
 )
