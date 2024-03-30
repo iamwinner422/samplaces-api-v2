@@ -10,6 +10,8 @@ export default class extends BaseSchema {
 			table.string('about').nullable()
 			table.string('key', 10).nullable()
 			table.string('bpm', 5).nullable()
+			table.integer('user_id').unsigned().references('id').inTable('users').onDelete('cascade')
+			table.boolean('id_delete').defaultTo(false)
 			table.timestamp('created_at')
 			table.timestamp('updated_at')
 		})
