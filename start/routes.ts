@@ -11,6 +11,7 @@ import { middleware } from "#start/kernel";
 const AuthController = () => import('#controllers/auth_controller')
 const InstrumentsController = () => import('#controllers/instruments_controller')
 
+
 router.get('/', ({response}) => {
 	response.redirect().toPath('/api')
 })

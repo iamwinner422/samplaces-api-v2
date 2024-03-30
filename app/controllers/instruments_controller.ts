@@ -1,5 +1,6 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import {AddValidator, UpdateValidator} from "#validators/instrument";
+import {manageInstruments} from "#abilities/main";
 import Instrument from "#models/instrument";
 
 export default class InstrumentsController {
@@ -8,7 +9,10 @@ export default class InstrumentsController {
 		return response.status(200).send({success: true, data: instruments})
 	}
 
-	async store({request, response}: HttpContext){
+	async store({request, response, bouncer}: HttpContext){
+		if (await bouncer.denies(manageInstruments)){
+			return response.status(403).send({success: false, message: 'Permission denied'})
+		}
 		const { name } = await request.validateUsing(AddValidator)
 		const instrument = await Instrument.create({ name })
 		return response.status(201).send({success: true, data: instrument})
