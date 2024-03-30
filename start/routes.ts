@@ -25,6 +25,8 @@ router.group(() => {
 	router.group(() => {
 		router.get('/', [InstrumentsController, 'all'])
 		router.post('/', [InstrumentsController, 'add'])
+		router.put('/:id', [InstrumentsController, 'update'])
 	}).prefix('instruments').use(middleware.auth())
+
 
 }).prefix('api')
