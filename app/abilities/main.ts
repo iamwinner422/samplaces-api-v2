@@ -12,7 +12,8 @@
 |
 */
 
-import { Bouncer } from '@adonisjs/bouncer'
+import { Bouncer, AuthorizationResponse } from '@adonisjs/bouncer'
+import User from "#models/user";
 
 /**
  * Delete the following ability to start from
@@ -20,4 +21,11 @@ import { Bouncer } from '@adonisjs/bouncer'
  */
 export const editUser = Bouncer.ability(() => {
   return true
+})
+
+export const manageInstruments = Bouncer.ability((user: User) => {
+	if(user.isAdmin) {
+		return true
+	}
+	return AuthorizationResponse.deny('Unauthorized!', 403)
 })
