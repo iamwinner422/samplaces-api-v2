@@ -10,4 +10,5 @@ export default class Instrument extends BaseModel {
 	declare createdAt: DateTime
 	@column.dateTime({autoCreate: true, autoUpdate: true})
 	declare updatedAt: DateTime
+
 }
