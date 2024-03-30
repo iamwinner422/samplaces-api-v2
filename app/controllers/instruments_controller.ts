@@ -11,7 +11,7 @@ export default class InstrumentsController {
 
 	async store({request, response, bouncer}: HttpContext){
 		if (await bouncer.denies(manageInstruments)){
-			return response.status(403).send({success: false, message: 'Unauthorized!'})
+			return response.status(403).send({success: false, message: 'Forbidden!'})
 		}
 		const { name } = await request.validateUsing(AddValidator)
 		const instrument = await Instrument.create({ name })
@@ -20,7 +20,7 @@ export default class InstrumentsController {
 
 	async update({request, response, params, bouncer}: HttpContext){
 		if (await bouncer.denies(manageInstruments)){
-			return response.status(403).send({success: false, message: 'Unauthorized!'})
+			return response.status(403).send({success: false, message: 'Forbidden!'})
 		}
 		const { name } = await request.validateUsing(UpdateValidator)
 		const id: Number = Number(params.id)
@@ -32,7 +32,7 @@ export default class InstrumentsController {
 
 	async destroy({response, params, bouncer}: HttpContext){
 		if (await bouncer.denies(manageInstruments)){
-			return response.status(403).send({success: false, message: 'Unauthorized!'})
+			return response.status(403).send({success: false, message: 'Forbidden!'})
 		}
 		const id: Number = Number(params.id)
 		const instrument: Instrument = await Instrument.findOrFail(id)
