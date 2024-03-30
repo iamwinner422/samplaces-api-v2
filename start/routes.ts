@@ -16,7 +16,10 @@ router.get('/', ({ response }) => {
 })
 
 router.group(() => {
+
   router.group(() => {
+    router.post('/', [AuthController, 'login'])
     router.post('/register', [AuthController, 'register'])
   }).prefix('auth')
+
 }).prefix('api')
