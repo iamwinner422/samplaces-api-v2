@@ -7,7 +7,6 @@ export const AddValidator = vine.compile(
 )
 export const UpdateValidator = vine.compile(
 	vine.object({
-		id: vine.number(),
 		name: vine.string().trim().minLength(3).maxLength(254)
 	}),
 

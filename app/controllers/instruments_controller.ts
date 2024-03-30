@@ -14,8 +14,9 @@ export default class InstrumentsController {
 		return response.status(201).send({success: true, data: instrument})
 	}
 
-	async update({request, response}: HttpContext){
-		const {id, name } = await request.validateUsing(UpdateValidator)
+	async update({request, response, params}: HttpContext){
+		const { name } = await request.validateUsing(UpdateValidator)
+		const id = Number(params.id)
 		const instrument: Instrument = await Instrument.findOrFail(id)
 		instrument.name = name
 		await instrument.save()
