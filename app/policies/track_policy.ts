@@ -8,8 +8,8 @@ export default class TrackPolicy extends BasePolicy {
 	/**
 	 * Every logged-in user can create
 	 */
-	create(user: User): AuthorizerResponse {
-		return true
+	create(user: User, song: Song): AuthorizerResponse {
+		return user.id === song.userId
 	}
 
 	readOne(user: User, track: Track, song: Song): AuthorizerResponse {
