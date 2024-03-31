@@ -8,6 +8,7 @@
 */
 import router from '@adonisjs/core/services/router'
 import { middleware } from "#start/kernel";
+import TracksController from "#controllers/tracks_controller";
 const AuthController = () => import('#controllers/auth_controller')
 const InstrumentsController = () => import('#controllers/instruments_controller')
 const SongsController = ()=> import('#controllers/songs_controller')
@@ -42,5 +43,11 @@ router.group(() => {
 			router.delete('/:id', [SongsController, 'destroy'])
 		}).where('id', {match: /^[0-9]+$/})
 	}).prefix('songs').use(middleware.auth())
+
+	router.group(() => {
+		router.post('/', [TracksController, 'store'])
+		router.delete('/:id', [TracksController, 'destroy']).where('id', {match: /^[0-9]+$/})
+		router.delete('/all', [TracksController, 'destroyManyBySong'])
+	}).prefix('tracks').where('song_id', {match: /^[0-9]+$/}).use(middleware.auth())
 
 }).prefix('api')
