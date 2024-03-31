@@ -1,0 +1,15 @@
+meta {
+  name: Create
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseURL}}/songs
+  body: formUrlEncoded
+  auth: inherit
+}
+
+body:form-urlencoded {
+  title: salvation
+}

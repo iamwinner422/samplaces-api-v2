@@ -38,7 +38,7 @@ router.group(() => {
 		router.group(() => {
 			router.get('/:id', [SongsController, 'show'])
 			router.put('/:id', [SongsController, 'update'])
-			router.put('/:id/:action', [SongsController, 'trashRestore'])
+			router.put('/trash-restore/:id', [SongsController, 'trashRestore'])
 			router.delete('/:id', [SongsController, 'destroy'])
 		}).where('id', {match: /^[0-9]+$/})
 	}).prefix('songs').use(middleware.auth())
