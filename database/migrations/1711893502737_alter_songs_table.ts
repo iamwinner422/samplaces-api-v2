@@ -4,8 +4,8 @@ export default class extends BaseSchema {
 	protected tableName = 'songs'
 
 	async up() {
-		this.schema.createTable(this.tableName, (table) => {
-			table.dropColumn('id_deleted')
+		this.schema.alterTable(this.tableName, (table) => {
+			table.dropColumn('id_delete')
 			table.boolean('is_deleted').defaultTo(false)
 		})
 	}
