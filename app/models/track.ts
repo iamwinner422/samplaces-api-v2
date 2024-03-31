@@ -13,8 +13,6 @@ export default class Track extends BaseModel {
 	declare sampleOrPreset: string | null
 	@column()
 	declare songId: number
-	@column({columnName: 'is_deleted'})
-	declare isDeleted: boolean
 	@column.dateTime({autoCreate: true})
 	declare createdAt: DateTime
 	@column.dateTime({autoCreate: true, autoUpdate: true})

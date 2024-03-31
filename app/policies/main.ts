@@ -13,5 +13,6 @@
 */
 
 export const policies = {
+  TrackPolicy: () => import('#policies/track_policy'),
   SongPolicy: () => import('#policies/song_policy')
 }

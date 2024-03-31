@@ -10,7 +10,6 @@ export default class extends BaseSchema {
 			table.string('sample_or_preset').nullable()
 			table.integer('instrument_id').unsigned().references('id').inTable('instruments').onDelete('set null')
 			//table.integer('song_id').unsigned().references('id').inTable('songs').onDelete('cascade')
-			table.boolean('is_deleted').defaultTo(false)
 			table.timestamp('created_at')
 			table.timestamp('updated_at')
 		})
