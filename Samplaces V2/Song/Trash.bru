@@ -5,7 +5,11 @@ meta {
 }
 
 put {
-  url: {{baseURL}}/songs/trash-restore/1
+  url: {{baseURL}}/songs/trash-restore/1?action=trash
   body: none
   auth: none
+}
+
+query {
+  action: trash
 }

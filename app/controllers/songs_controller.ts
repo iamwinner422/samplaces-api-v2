@@ -9,7 +9,7 @@ export default class SongsController {
 		const user = await auth.authenticate()
 		const songs: Song[] = await Song.query().with('tracks', (query) => {
 			query.from('tracks').select('*').orderBy('name', 'asc')
-		}).where('user_id', user.id).orderBy('title', 'asc')
+		}).where('user_id', user.id).andWhere('is_deleted', false).orderBy('title', 'asc')
 		return response.status(200).send({success: true, data: songs})
 	}
 
