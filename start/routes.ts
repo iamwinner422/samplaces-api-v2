@@ -18,6 +18,9 @@ router.get('/', ({response}) => {
 })
 
 router.group(() => {
+	router.get('/', async ()=> {
+		return {success: true, data:{name: "Samplaces APIs", team: "lab'el Creative", author: "iamwinner422"}}
+	})
 
 	router.group(() => {
 		router.post('/', [AuthController, 'login'])
