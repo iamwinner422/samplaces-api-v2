@@ -19,7 +19,7 @@ router.get('/', ({response}) => {
 
 router.group(() => {
 	router.get('/', async ()=> {
-		return {success: true, data:{name: "Samplaces APIs", team: "lab'el Creative", author: "iamwinner422"}}
+		return {success: true, data:{name: "Samplaces APIs", team: "lab'el® Creative", author: {name: "iamwinner422", link: "https://github.com/iamwinner422"}}}
 	})
 
 	router.group(() => {
