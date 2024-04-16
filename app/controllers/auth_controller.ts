@@ -21,11 +21,7 @@ export default class AuthController {
 
   async register({ request, response}: HttpContext){
     const payload = await request.validateUsing(RegisterValidator)
-    const rawUser = await User.create(payload)
-    const user = rawUser.serialize()
-    delete user.id
-    delete user.password
-    delete user.role
-    return response.status(201).send({success: true, data: user})
+    await User.create(payload)
+    return response.status(201).send({success: true, message: "User created!"})
   }
 }
