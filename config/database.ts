@@ -7,6 +7,7 @@ const dbConfig = defineConfig({
     postgres: {
       client: 'pg',
       connection: {
+        connectionString: env.get('DB_CONNECTION_URL'),
         host: env.get('DB_HOST'),
         port: env.get('DB_PORT'),
         user: env.get('DB_USER'),
