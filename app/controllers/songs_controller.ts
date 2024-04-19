@@ -18,8 +18,8 @@ export default class SongsController {
 			return response.status(403).send({success: false, message: 'Forbidden!'})
 		}
 		const user = await auth.authenticate()
-		const { title } = await request.validateUsing(AddValidator)
-		const song:Song = await Song.create({title})
+		const { title, about } = await request.validateUsing(AddValidator)
+		const song:Song = await Song.create({title, about})
 		await song.related('user').associate(user)
 		return response.status(201).send({success: true, data: song})
 	}
